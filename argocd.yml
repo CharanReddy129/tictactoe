@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata: 
+  name: tictactoe-application
+  namespace: argo
+spec:
+  project: default
+  source: 
+    repoURL: https://github.com/CharanReddy129/tictactoe.git
+    targetRevision: main
+    path: kubernetes/
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: game
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - createNamespace=true
