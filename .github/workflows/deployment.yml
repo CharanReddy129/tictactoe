@@ -23,10 +23,9 @@ jobs:
             password: ${{ secrets.DOCKER_PASSWORD }}
 
         - name: Build and Push Image
-          uses: docker/build-push-action@v6
-          with:
-            push: true
-            tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+          run: |
+            docker build -t ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} .
+            docker push ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
     
     update-k8s-deployment:
         needs: build
