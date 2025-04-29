@@ -27,3 +27,21 @@ jobs:
           with:
             push: true
             tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+    
+    update-k8s-deployment:
+        needs: build
+        runs-on: ubuntu-latest
+        steps:
+        - name: checkout 
+          uses: actions/checkout@v4
+
+        - name: Updating the Deployment file in kubernetes 
+          run: |
+            git config user.name "github-actions[bot]" 
+            git congig user.email "github-actions[bot]@users.noreply.github.com"
+            
+            sed -i 's|charanreddy12/tictactoe:.*|charanreddy12/tictactoe:${{ env.IMAGE_TAG }}|g' ./kubernetes/deployment.yml
+            
+            git commit -am "updating the image tag in the deployment to ${{ env.IMAGE_TAG }}"
+
+            git push origin main
