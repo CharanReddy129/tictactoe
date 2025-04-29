@@ -1,0 +1,29 @@
+name: Workflow to deploy Application
+on: 
+    push:
+      branches: 
+        - main
+      paths-ignore: 
+          - ./kubernetes/*
+env:
+    DOCKER_USERNAME: charanreddy12
+    IMAGE_NAME: tictactoe
+    IMAGE_TAG: v${{ github.run_number }}
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - name: checkout
+          uses: actions/checkout@v4
+        
+        - name: Login to DockerHub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ env.DOCKER_USERNAME }}
+            password: ${{ secrets.DOCKER_PASSWORD }}
+
+        - name: Build and Push Image
+          uses: docker/build-push-action@v6
+          with:
+            push: true
+            tags: ${{ env.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
