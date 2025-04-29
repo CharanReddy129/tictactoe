@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: tictactoe
 spec:
+  replicas: 2
   selector:
     matchLabels:
       app: game
@@ -13,7 +14,7 @@ spec:
     spec:
       containers:
       - name: game
-        image: charanreddy12/tictactoe:v11
+        image: charanreddy12/tictactoe:v14
         resources:
           requests:
             memory: "128Mi"
