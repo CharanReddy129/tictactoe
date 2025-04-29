@@ -11,7 +11,7 @@ env:
     IMAGE_TAG: v${{ github.run_number }}
 jobs:
     build:
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
         - name: checkout
           uses: actions/checkout@v4
@@ -30,7 +30,7 @@ jobs:
     
     update-k8s-deployment:
         needs: build
-        runs-on: ubuntu-latest
+        runs-on: self-hosted
         steps:
         - name: checkout 
           uses: actions/checkout@v4
